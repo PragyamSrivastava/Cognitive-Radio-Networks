@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Project Presentation — Cooperative Spectrum Sensing Using CNN | BIT</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+
+  @page { size: 297mm 420mm; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 297mm; height: 420mm; max-height: 420mm;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #fff; color: #111;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    overflow: hidden;
+  }
+
+  .poster {
+    width: 297mm; height: 420mm; max-height: 420mm;
+    display: flex; flex-direction: column;
+    padding: 5mm 7mm 4mm 7mm;
+    overflow: hidden;
+  }
+
+  /* ── HEADER ── */
+  .inst-header {
+    background: #e4efe8;
+    padding: 3mm 6mm 2.5mm;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 2.5px solid #b89130;
+    position: relative; flex-shrink: 0;
+  }
+  .inst-header::after {
+    content: ''; position: absolute; bottom: -4.5px; left: 0; right: 0;
+    height: 2px; background: #14532d;
+  }
+  .logo-box { width: 23mm; height: 23mm; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .inst-center { flex: 1; text-align: center; padding: 0 4mm; }
+  .inst-center h1 { font-family: 'Crimson Pro', Georgia, serif; font-size: 16.5pt; font-weight: 800; color: #14532d; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 0.8mm; }
+  .inst-center .sub { font-size: 7.5pt; font-weight: 600; color: #222; }
+  .inst-center .sub strong { font-weight: 700; }
+  .inst-center .yr { font-size: 7.2pt; color: #996515; font-style: italic; font-weight: 700; margin: 0.4mm 0; }
+  .inst-center .dept { font-size: 8pt; color: #14532d; font-weight: 700; }
+
+  /* ── RIBBON ── */
+  .ribbon-wrap { display: flex; justify-content: center; margin: 2mm 0 1.5mm; flex-shrink: 0; }
+  .ribbon { background: #507d6b; color: #fff; font-size: 10.5pt; font-weight: 800; letter-spacing: 3.5px; text-transform: uppercase; padding: 1.5mm 22mm; clip-path: polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); }
+
+  /* ── TITLE ── */
+  .title-box { border: 1.2px solid #111; padding: 2mm 4mm; margin-bottom: 1.5mm; flex-shrink: 0; }
+  .title-box h2 { font-size: 9.5pt; font-weight: 700; line-height: 1.25; }
+  .title-box .tl { color: #14532d; font-weight: 800; }
+  .title-box .tt { color: #8b1818; font-weight: 800; }
+
+  /* ── ID/TEAM ROW ── */
+  .id-row { display: flex; gap: 2mm; margin-bottom: 1.6mm; flex-shrink: 0; }
+  .id-box { flex: 0 0 28%; border: 1.2px solid #111; padding: 1.8mm 3.5mm; display: flex; align-items: center; }
+  .id-box .il { font-size: 8.5pt; font-weight: 800; }
+  .id-box .iv { font-size: 8.5pt; font-weight: 800; color: #14532d; margin-left: 2.5mm; }
+  .team-box { flex: 1; border: 1.2px solid #111; padding: 1.5mm 4mm; }
+  .team-hdr { display: flex; justify-content: space-between; font-size: 7.5pt; font-weight: 800; margin-bottom: 0.6mm; }
+  .team-hdr .guide { font-weight: 600; font-style: italic; color: #333; }
+  .team-hdr .guide strong { font-weight: 700; color: #14532d; }
+  .team-tbl { width: 100%; font-size: 7.2pt; color: #222; }
+  .team-tbl td { padding: 0.2mm 0; }
+  .team-tbl td:nth-child(odd) { font-weight: 600; }
+  .team-tbl td:nth-child(even) { color: #444; }
+
+  /* ── GRID ── */
+  .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2mm; flex: 1; min-height: 0; margin-bottom: 1.6mm; }
+  .card { border: 1.2px solid #111; padding: 2.5mm 3.5mm; display: flex; flex-direction: column; overflow: hidden; }
+  .card h3 { font-family: 'Crimson Pro', Georgia, serif; font-size: 11pt; font-weight: 800; color: #14532d; margin-bottom: 1.2mm; padding-bottom: 0.5mm; border-bottom: 1px solid #e0e0e0; flex-shrink: 0; }
+  .card-body { flex: 1; overflow: hidden; }
+
+  /* ── TEXT ── */
+  p, li { font-size: 7.4pt; line-height: 1.42; color: #222; text-align: justify; }
+  p + p { margin-top: 0.6mm; }
+  ul { padding-left: 3.8mm; }
+  li { margin-bottom: 0.6mm; }
+  li:last-child { margin-bottom: 0; }
+  strong { color: #111; }
+
+  /* ── DIAGRAM BOXES ── */
+  .dia-box { background: #f4f8f5; border: 0.8px solid #bed6c7; border-radius: 2px; padding: 1.4mm 1mm; text-align: center; margin: 0.8mm 0; }
+  .dia-title { font-size: 6pt; font-weight: 700; color: #14532d; font-style: italic; margin-bottom: 0.8mm; }
+  .flow { display: flex; align-items: center; justify-content: center; gap: 1mm; }
+  .fnode { background: #1e6b3d; color: #fff; font-size: 5.2pt; font-weight: 600; padding: 1mm 1.4mm; border-radius: 2px; line-height: 1.15; text-align: center; }
+  .fnode.hw { background: #8b1818; }
+  .farr { color: #14532d; font-weight: 800; font-size: 7pt; }
+  .cnn-box { background: #fafbf9; border: 0.8px solid #c8dcd0; border-radius: 2px; padding: 1.2mm 1mm; text-align: center; margin: 0.6mm 0; }
+  .cblk { background: #14532d; color: #fff; padding: 0.7mm 1mm; border-radius: 2px; font-size: 4.8pt; font-weight: 600; line-height: 1.1; text-align: center; }
+  .cblk small { display: block; font-size: 3.8pt; opacity: 0.9; font-weight: 400; }
+  .carr { font-size: 5.5pt; color: #996515; font-weight: 800; }
+
+  /* ── CALLOUTS ── */
+  .hw-call { background: #fdf8f4; border-left: 3px solid #c05621; padding: 1mm 2mm; margin: 0.6mm 0; }
+  .hw-call p { font-size: 7pt; line-height: 1.34; color: #333; }
+
+  /* ── FIGURES ── */
+  .fig { text-align: center; margin: 0.5mm 0; }
+  .fig img { max-width: 100%; max-height: 32mm; object-fit: contain; border: 0.5px solid #ccc; }
+  .fig-cap { font-size: 5.6pt; font-style: italic; color: #444; margin-top: 0.4mm; text-align: center; }
+  .fig2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5mm; }
+  .fig2 .fig img { max-height: 28mm; }
+
+  /* ── TABLES ── */
+  .mtbl { width: 100%; border-collapse: collapse; font-size: 6.8pt; margin: 0.6mm 0; }
+  .mtbl th { background: #14532d; color: #fff; padding: 0.8mm 1.4mm; text-align: left; font-weight: 700; }
+  .mtbl td { padding: 0.7mm 1.4mm; border-bottom: 0.5px solid #e5e5e5; }
+  .mtbl tr:nth-child(even) { background: #f9fbf9; }
+
+  /* ── REFS ── */
+  .ref { font-size: 5.6pt; color: #444; margin-top: 0.4mm; line-height: 1.25; padding-left: 2mm; text-indent: -2mm; }
+
+  /* ── FOOTER ── */
+  .footer { border: 1.2px solid #111; padding: 1.8mm 4mm; flex-shrink: 0; }
+  .footer .c1 { font-size: 7.2pt; color: #111; margin-bottom: 0.3mm; }
+  .footer .c1 strong { font-weight: 800; }
+  .footer .c2 { font-size: 6.2pt; color: #444; }
+
+  @media print {
+    html, body { width: 297mm; height: 420mm; overflow: hidden; }
+    .poster { width: 297mm; height: 420mm; }
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- HEADER -->
+  <div class="inst-header">
+    <div class="logo-box"><img src="bit_logo.png" alt="BIT Logo"></div>
+    <div class="inst-center">
+      <h1>Bangalore Institute of Technology</h1>
+      <div class="sub">Institution of Rajya Vokkaligara Sangha &nbsp;|&nbsp; <strong>An Autonomous Institution under VTU</strong></div>
+      <div class="yr">47 Years of Excellence (1979 – 2026) &nbsp;•&nbsp; www.bit-bangalore.edu.in</div>
+      <div class="dept">Department of Electronics & Telecommunication Engineering</div>
+    </div>
+    <div class="logo-box"><img src="rvs_logo.png" alt="RVS Logo"></div>
+  </div>
+
+  <!-- RIBBON -->
+  <div class="ribbon-wrap"><div class="ribbon">Project Presentation</div></div>
+
+  <!-- TITLE -->
+  <div class="title-box">
+    <h2><span class="tl">Title:</span> <span class="tt">Cooperative Spectrum Sensing Using CNN-Based Signal Classification for Cognitive Radio Networks</span></h2>
+  </div>
+
+  <!-- ID/TEAM -->
+  <div class="id-row">
+    <div class="id-box"><span class="il">Project ID:</span><span class="iv">G10</span></div>
+    <div class="team-box">
+      <div class="team-hdr">
+        <span>Project Team Names:</span>
+        <span class="guide">Guide: <strong>Prof. Asha R</strong>, Assistant Professor</span>
+      </div>
+      <table class="team-tbl">
+        <tr><td>Pragyam Srivastava</td><td>1BI23ET050</td><td>Rachana</td><td>1BI23ET064</td></tr>
+        <tr><td>Sangeetha</td><td>1BI23ET050</td><td>Amoghapriya R B</td><td>1BI23ET066</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 6-BOX GRID -->
+  <div class="grid">
+
+    <!-- 1: OBJECTIVES -->
+    <div class="card">
+      <h3>Objectives</h3>
+      <div class="card-body">
+        <ul>
+          <li>Design and implement a deep <strong>Convolutional Neural Network (CNN)</strong> classifier to accurately identify AM, FM, BPSK, and QPSK modulated primary user signals from 2D STFT spectrogram representations generated from raw I/Q sample data.</li>
+          <li>Integrate an <strong>RTL-SDR USB receiver (DVB-T + DAB + FM TV Stick)</strong> with a telescoping dipole antenna for live over-the-air RF signal acquisition and empirical validation across the 88–108 MHz FM broadcast band.</li>
+          <li>Simulate a distributed <strong>multi-node cooperative spectrum sensing</strong> network with independent AWGN channel noise, Rayleigh multipath fading, and log-normal shadowing realizations per sensing node to model realistic wireless conditions.</li>
+          <li>Implement and compare centralized hard decision fusion strategies at a Fusion Center: <strong>OR-rule</strong> (maximizing detection sensitivity P<sub>d</sub>) and <strong>Majority Voting</strong> (balancing false alarm P<sub>f</sub> and detection probability).</li>
+          <li>Perform rigorous performance evaluation across a broad SNR range from <strong>−20 dB to +20 dB</strong> using ROC curves, multi-class confusion matrices, per-class precision/recall/F1-score, and accuracy-vs-SNR convergence plots.</li>
+          <li>Achieve <strong>&gt;90% classification accuracy</strong> at moderate SNR (&ge; −4 dB) and demonstrate measurable cooperative gain (&gt;25% P<sub>d</sub> improvement) over isolated single-node sensing performance.</li>
+          <li>Develop an interactive <strong>Streamlit web dashboard</strong> providing real-time signal generation, STFT spectrogram visualization, live CNN inference, cooperative fusion analysis, and exportable performance metrics.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2: INTRODUCTION -->
+    <div class="card">
+      <h3>Introduction</h3>
+      <div class="card-body">
+        <p>With the explosive proliferation of wireless communication systems—including 5G NR, IoT sensor networks, vehicular ad-hoc networks, and satellite communication—electromagnetic radio spectrum has become an extremely scarce and valuable resource. Regulatory studies by the ITU and FCC have consistently revealed that despite heavy licensing, vast portions of allocated spectrum remain temporally and spatially underutilized, creating what is known as <em>spectrum holes</em> or <em>white spaces</em>.</p>
+        <p><strong>Cognitive Radio (CR)</strong> technology addresses this inefficiency through intelligent, opportunistic <strong>dynamic spectrum access (DSA)</strong>. In the CR paradigm, unlicensed secondary users (SUs) continuously monitor the radio environment and dynamically access vacant licensed frequency bands, provided they cause no harmful interference to incumbent primary users (PUs). The fundamental enabling capability is <strong>spectrum sensing</strong>—the reliable detection of PU activity.</p>
+        <p>Conventional sensing techniques such as energy detection, matched filtering, and cyclostationary feature detection suffer severe performance degradation in <strong>low Signal-to-Noise Ratio (SNR) regimes</strong>, multipath Rayleigh fading channels, and log-normal shadowing environments. These limitations give rise to the critical <em>hidden node problem</em>, where an isolated SU—located in a deep fade or behind an obstruction—fails to detect an actively transmitting PU, leading to harmful co-channel interference.</p>
+        <p><strong>Deep learning on time-frequency spectrograms</strong> offers a paradigm shift. By converting 1D raw I/Q time-series samples into 2D Short-Time Fourier Transform (STFT) power spectral density images, CNNs automatically learn discriminative spatial-temporal energy textures unique to each modulation scheme, without requiring manual feature engineering or noise-dependent threshold calibration. This approach provides robust classification even at severely negative SNR values.</p>
+        <p>Furthermore, <strong>cooperative spectrum sensing (CSS)</strong> leverages spatial diversity by combining local sensing decisions from multiple geographically distributed nodes at a centralized Fusion Center. Hard decision fusion rules—such as OR-rule and Majority Voting—aggregate binary local decisions to eliminate single-point blind spots, dramatically improving detection reliability and guaranteeing primary user protection across challenging wireless propagation environments.</p>
+      </div>
+    </div>
+
+    <!-- 3: METHODOLOGY -->
+    <div class="card">
+      <h3>Methodology</h3>
+      <div class="card-body">
+        <p><strong>Software & Tools:</strong> Python 3.10+, PyTorch (deep learning framework), NumPy, SciPy (signal processing), Matplotlib (visualization), Scikit-learn (evaluation metrics), Streamlit (interactive dashboard).</p>
+        <div class="dia-box">
+          <div class="dia-title">Fig. 1 — End-to-end hardware-enabled cognitive radio sensing pipeline.</div>
+          <div class="flow">
+            <div class="fnode hw">RTL-SDR /<br>IQ Gen</div>
+            <div class="farr">→</div>
+            <div class="fnode">AWGN<br>Channel</div>
+            <div class="farr">→</div>
+            <div class="fnode">STFT<br>Spectrogram</div>
+            <div class="farr">→</div>
+            <div class="fnode">CNN<br>Classifier</div>
+            <div class="farr">→</div>
+            <div class="fnode">Fusion<br>Center</div>
+          </div>
+        </div>
+        <div class="hw-call">
+          <p><strong>Hardware Setup:</strong> RTL-SDR USB TV Stick receiver (RTL2832U + R820T2 tuner chipset, DVB-T + DAB + FM capable) interfaced with a telescoping dipole antenna for live over-the-air RF signal capture across the 88–108 MHz FM broadcast band, providing real-world signal validation.</p>
+        </div>
+        <p><strong>Signal Generation:</strong> Synthetic I/Q baseband dataset generated for four modulation types: AM (modulation index &mu;=0.8), FM (frequency deviation &Delta;f=75 kHz), BPSK, and QPSK with root-raised cosine (RRC) pulse shaping filter (&beta;=0.35). Additive White Gaussian Noise (AWGN) injected across 11 calibrated SNR levels spanning −20 dB to +20 dB in 4 dB steps.</p>
+        <p><strong>Spectrogram Processing:</strong> Short-Time Fourier Transform (STFT) computed using a Hann window of length N=64 with 75% overlap (hop=16 samples). Resulting 2D magnitude spectrograms resized and min-max normalized to 64&times;64 single-channel grayscale images suitable for CNN input.</p>
+        <div class="cnn-box">
+          <div class="dia-title">Fig. 2 — Deep 4-Block CNN Classifier Architecture</div>
+          <div class="flow" style="gap:0.5mm;">
+            <div class="cblk">Input<small>64×64×1</small></div>
+            <div class="carr">→</div>
+            <div class="cblk">Conv32<small>BN+ReLU+Pool</small></div>
+            <div class="carr">→</div>
+            <div class="cblk">Conv64<small>BN+ReLU+Pool</small></div>
+            <div class="carr">→</div>
+            <div class="cblk">Conv128<small>BN+ReLU+Pool</small></div>
+            <div class="carr">→</div>
+            <div class="cblk">Conv256<small>BN+ReLU+Pool</small></div>
+            <div class="carr">→</div>
+            <div class="cblk">GAP<small>Dropout(0.5)</small></div>
+            <div class="carr">→</div>
+            <div class="cblk">FC128<small>Softmax(4)</small></div>
+          </div>
+        </div>
+        <p><strong>CNN Architecture:</strong> 4-stage deep convolutional network with progressively increasing filter banks (32→64→128→256), each followed by Batch Normalization, ReLU activation, and 2×2 Max Pooling. Global Average Pooling replaces fully-connected flattening for parameter efficiency. Dropout (p=0.5) regularization applied before the final FC-128→Softmax(4-class) output layer. Trained with Adam optimizer (lr=10<sup>−3</sup>) and early stopping on validation loss.</p>
+        <p><strong>Cooperative Decision Fusion:</strong> Centralized Fusion Center collects hard binary decisions from 3 independent sensing nodes (each with independent noise/fading realizations) and applies: (1) <strong>OR-rule</strong> — declares PU present if <em>any</em> node detects, maximizing P<sub>d</sub>; (2) <strong>Majority Voting</strong> — declares PU present only if &ge;2/3 nodes agree, optimally balancing P<sub>d</sub> and P<sub>f</sub>.</p>
+      </div>
+    </div>
+
+    <!-- 4: FIGURES -->
+    <div class="card">
+      <h3>Figures</h3>
+      <div class="card-body">
+        <div class="fig2">
+          <div class="fig">
+            <img src="results/confusion_matrices.png" alt="Confusion Matrices">
+            <div class="fig-cap">Fig. 3 — Confusion matrices at SNR = −10 dB, 0 dB, +10 dB showing per-class classification accuracy across all four modulation types.</div>
+          </div>
+          <div class="fig">
+            <img src="results/sample_spectrograms.png" alt="Sample Spectrograms">
+            <div class="fig-cap">Fig. 4 — Normalized STFT spectrogram signatures for AM, FM, BPSK, and QPSK at SNR = −10, 0, +10 dB showing distinctive energy textures.</div>
+          </div>
+        </div>
+        <div class="fig2" style="margin-top: 1mm;">
+          <div class="fig">
+            <img src="results/roc_individual.png" alt="Individual ROC">
+            <div class="fig-cap">Fig. 5 — Per-class ROC curves for individual (single-node) sensing showing detection probability vs false alarm rate trade-off.</div>
+          </div>
+          <div class="fig">
+            <img src="results/training_history.png" alt="Training History">
+            <div class="fig-cap">Fig. 6 — Training loss and validation accuracy convergence curves across 50 epochs demonstrating stable model training.</div>
+          </div>
+        </div>
+        <table class="mtbl">
+          <tr><th>Modulation</th><th>Precision</th><th>Recall</th><th>F1-Score</th></tr>
+          <tr><td>AM (Analog)</td><td>0.90</td><td>0.93</td><td>0.91</td></tr>
+          <tr><td>FM (Analog)</td><td>0.91</td><td>0.90</td><td>0.90</td></tr>
+          <tr><td>BPSK (Digital)</td><td>0.49</td><td>0.79</td><td>0.60</td></tr>
+          <tr><td>QPSK (Digital)</td><td>0.76</td><td>0.28</td><td>0.41</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- 5: RESULTS -->
+    <div class="card">
+      <h3>Results</h3>
+      <div class="card-body">
+        <div class="fig2">
+          <div class="fig">
+            <img src="results/roc_cooperative.png" alt="ROC Cooperative">
+            <div class="fig-cap">Fig. 7 — Cooperative ROC curves: Individual sensing vs OR-rule vs Majority Voting fusion strategies.</div>
+          </div>
+          <div class="fig">
+            <img src="results/accuracy_vs_snr.png" alt="Accuracy vs SNR">
+            <div class="fig-cap">Fig. 8 — Overall classification accuracy across SNR range (−20 to +20 dB).</div>
+          </div>
+        </div>
+        <table class="mtbl">
+          <tr><th>Evaluation Metric</th><th>Observed Value</th></tr>
+          <tr><td>Overall Test Accuracy (All SNRs combined)</td><td><strong>72.00%</strong></td></tr>
+          <tr><td>Peak Accuracy (SNR &ge; +8 dB)</td><td><strong>95.45%</strong></td></tr>
+          <tr><td>Accuracy at SNR = −4 dB</td><td><strong>90.00%</strong></td></tr>
+          <tr><td>AM Precision / Recall</td><td>0.90 / 0.93</td></tr>
+          <tr><td>FM Precision / Recall</td><td>0.91 / 0.90</td></tr>
+          <tr><td>Cooperative P<sub>d</sub> @ SNR = −10 dB (OR-Rule)</td><td><strong>0.94</strong></td></tr>
+          <tr><td>Individual P<sub>d</sub> @ SNR = −10 dB</td><td><strong>0.68</strong></td></tr>
+          <tr><td>Channel Occupied Rate</td><td>45.02%</td></tr>
+          <tr><td>Mean Classification Confidence</td><td>71.32%</td></tr>
+        </table>
+        <p><strong>Key Findings:</strong> AM and FM are reliably classified even at low SNR due to distinctive spectral envelopes. BPSK and QPSK show confusion due to similar phase-modulated spectral shapes at negative SNR but resolve cleanly above −4 dB. <strong>Cooperative sensing with OR-rule</strong> significantly improves detection probability (P<sub>d</sub>) compared to individual sensing, especially at negative SNR, providing a +26% detection gain at −10 dB. <strong>Majority Voting</strong> provides a balanced trade-off—lower false alarm rate (P<sub>f</sub>) than OR-rule while maintaining competitive P<sub>d</sub>. At SNR &ge; −4 dB, the system achieves &ge;90% accuracy, validating the CNN-spectrogram approach for practical cognitive radio deployments.</p>
+      </div>
+    </div>
+
+    <!-- 6: ACKNOWLEDGEMENT -->
+    <div class="card">
+      <h3>Acknowledgement</h3>
+      <div class="card-body">
+        <p>We express our heartfelt gratitude to the <strong>Rajya Vokkaligara Sangha</strong> for establishing this premier institution and providing world-class academic infrastructure that made this project possible.</p>
+        <p>We thank our Principal, <strong>Dr. Vijayaprakash A.M.</strong>, for providing an excellent academic environment and his continuous encouragement and support throughout our academic journey.</p>
+        <p>We are deeply grateful to our Head of Department, <strong>Dr. Rajeswari M</strong>, for her constant support, guidance, and for fostering a research-oriented learning environment in the department.</p>
+        <p>We express our sincere and heartfelt thanks to our Project Guide and Coordinator, <strong>Prof. Asha R</strong>, Assistant Professor, for her invaluable guidance, continuous encouragement, expert mentorship, and dedicated support throughout the course of this project work.</p>
+        <p>We also thank all teaching and non-teaching staff of the Electronics & Telecommunication Engineering department for their technical support and assistance in the laboratory.</p>
+        <p>Finally, we extend our gratitude to our parents and friends for their unwavering moral support, patience, and encouragement throughout this project.</p>
+        <p style="margin-top: 1.5mm;"><strong>Conclusion:</strong> <em>The CNN-based cooperative spectrum sensing system effectively classifies modulation types from spectrograms and demonstrates measurable cooperative gain through multi-node fusion. Hardware integration with RTL-SDR USB TV Stick validates practical feasibility for real-time software-defined radio deployments. Future work includes RTL-SDR hardware integration for real-time field testing, GAN-based data augmentation, transformer architectures, and edge deployment on embedded platforms.</em></p>
+        <p style="margin-top: 1.5mm;"><strong>References:</strong></p>
+        <div class="ref">[1] Y. Sun, J. Wang, and Z. Han, "Deep learning-based cooperative spectrum sensing in cognitive radio networks," <em>IEEE Trans. on Wireless Communications</em>, vol. 18, no. 6, pp. 3126–3139, 2019.</div>
+        <div class="ref">[2] T. O'Shea and J. Hoydis, "An introduction to deep learning for the physical layer," <em>IEEE Trans. on Cognitive Communications and Networking</em>, vol. 3, no. 4, pp. 563–575, 2017.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="c1"><strong>Additional Information / Contact:</strong> &nbsp; Pragyam Srivastava • Rachana &nbsp;|&nbsp; Email: <strong>rachana042005@gmail.com</strong> &nbsp;|&nbsp; Contact: <strong>+91 9108340933</strong></div>
+    <div class="c2">Department of Electronics & Telecommunication Engineering, Bangalore Institute of Technology, K. R. Road, V. V. Pura, Bengaluru - 560004</div>
+  </div>
+
+</div>
+</body>
+</html>
